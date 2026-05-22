@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Property</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+</head>
+<body>
+    {% include "_navbar.html" %}
+    <section class="signup-section">
+        <div class="signup-container">
+            <div class="signup-left">
+                <h1>List Property</h1>
+                <p>Add a PG, hostel or flat and make it searchable for students and renters.</p>
+                <img src="https://cdn-icons-png.flaticon.com/512/1048/1048953.png" alt="property-image">
+            </div>
+
+            <div class="signup-right">
+                <h2>Add Listing</h2>
+                <p class="subtitle">Required fields are marked by the form</p>
+                {% if error %}
+                    <div style="background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; padding:12px 16px; border-radius:8px; margin-bottom:20px;">{{ error }}</div>
+                {% endif %}
+                <form action="{{ url_for('list_property') }}" method="POST">
+                    <div class="input-box">
+                        <label>Title</label>
+                        <input type="text" name="title" placeholder="Example: Comfort PG" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Full Location</label>
+                        <input type="text" name="location" placeholder="Area, City" required>
+                    </div>
+                    <div class="input-box">
+                        <label>City</label>
+                        <input type="text" name="city" placeholder="Enter city" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Area</label>
+                        <input type="text" name="area" placeholder="Enter area" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Stay Type</label>
+                        <select name="stay_type" required>
+                            <option value="">Select stay type</option>
+                            <option value="PG">PG</option>
+                            <option value="Hostel">Hostel</option>
+                            <option value="Flat">Flat</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label>Gender</label>
+                        <select name="gender" required>
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Any">Any</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label>Monthly Price</label>
+                        <input type="number" name="price" placeholder="Enter amount" min="0" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Facilities</label>
+                        <input type="text" name="facilities" placeholder="WiFi, Food, AC" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Image URL</label>
+                        <input type="url" name="image_url" placeholder="Optional image link">
+                    </div>
+                    <button type="submit">Publish Listing</button>
+                </form>
+                <div class="login-link">
+                    <a href="{{ url_for('listings') }}">Back to Listings</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

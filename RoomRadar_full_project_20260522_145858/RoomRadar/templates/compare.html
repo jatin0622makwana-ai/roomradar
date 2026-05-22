@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Rooms</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='listings.css') }}">
+    <style>
+        .compare-wrap {
+            padding: 40px 8% 80px;
+        }
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 35px;
+        }
+        .compare-table th,
+        .compare-table td {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            vertical-align: top;
+        }
+        .compare-table th {
+            background: #eff6ff;
+            color: #0f172a;
+        }
+        .compare-picker {
+            background: #fff;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .compare-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin: 18px 0;
+        }
+        .compare-option {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px;
+            color: #475569;
+        }
+        .compare-option strong {
+            color: #0f172a;
+        }
+        .compare-picker button {
+            background: #2563eb;
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            padding: 13px 20px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .empty-compare {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+        .details-btn {
+            display: inline-block;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">RoomRadar</div>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('listings') }}">Find Room</a>
+            <a href="{{ url_for('roommates') }}">Roommate</a>
+            <a href="{{ url_for('list_property') }}">List Property</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            {% if user %}
+                <span style="margin-left:20px; color:#2563eb; font-weight:600;">Hi, {{ user }}</span>
+                <a href="{{ url_for('logout') }}" style="margin-left:15px; color:#64748b; text-decoration:none;">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" style="margin-left:20px; color:#2563eb; font-weight:600;">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Compare Rooms</h1>
+        <p>Review rent, location, stay type and facilities before you choose.</p>
+    </section>
+
+    <main class="compare-wrap">
+        {% if listings %}
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Room</th>
+                        <th>Rent</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Gender</th>
+                        <th>Facilities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in listings %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.title }}</strong><br>
+                            <a href="{{ url_for('listing_detail', listing_id=item.id) }}" class="details-btn">View Details</a>
+                        </td>
+                        <td>&#8377;{{ "{:,}".format(item.price) }} / month</td>
+                        <td>{{ item.location }}</td>
+                        <td>{{ item.stay_type }}</td>
+                        <td>{{ item.gender }}</td>
+                        <td>{{ item.facilities|join(", ") }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="empty-compare">
+                <h2 style="color:#0f172a; margin-bottom:10px;">Choose rooms to compare</h2>
+                <p>Select two or more listings below and click Compare Selected.</p>
+            </div>
+        {% endif %}
+
+        <form action="{{ url_for('compare') }}" method="GET" class="compare-picker">
+            <h2>Select Listings</h2>
+            <div class="compare-options">
+                {% for item in all_listings %}
+                <label class="compare-option">
+                    <input type="checkbox" name="id" value="{{ item.id }}" {% if item.id in selected_ids %}checked{% endif %}>
+                    <strong>{{ item.title }}</strong><br>
+                    {{ item.location }}<br>
+                    &#8377;{{ "{:,}".format(item.price) }} / month
+                </label>
+                {% endfor %}
+            </div>
+            <button type="submit">Compare Selected</button>
+        </form>
+    </main>
+</body>
+</html>

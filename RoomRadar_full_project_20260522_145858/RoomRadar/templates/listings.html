@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoomRadar Listings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='listings.css') }}">
+    <style>
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+            font-size: 18px;
+            grid-column: 1 / -1;
+        }
+        .no-results h3 { font-size: 24px; margin-bottom: 10px; color: #0f172a; }
+        .result-count {
+            padding: 0 8% 10px;
+            color: #64748b;
+            font-size: 15px;
+        }
+        .compare-btn {
+            display: inline-block;
+            text-decoration: none;
+        }
+        .compare-panel {
+            margin: 0 8% 20px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            color: #475569;
+        }
+        .compare-panel button {
+            background: #0f172a;
+            color: #fff;
+            border: 0;
+            border-radius: 8px;
+            padding: 11px 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .compare-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            color: #475569;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">RoomRadar</div>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('listings') }}">Find Room</a>
+            <a href="{{ url_for('roommates') }}">Roommate</a>
+            <a href="{{ url_for('list_property') }}">List Property</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            {% if user %}
+                <span style="margin-left:20px; color:#2563eb; font-weight:600;">Hi, {{ user }}</span>
+                <a href="{{ url_for('logout') }}" style="margin-left:15px; color:#64748b; text-decoration:none;">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" style="margin-left:20px; color:#2563eb; font-weight:600;">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Find Your Perfect Stay</h1>
+        <p>Explore budget-friendly PGs, flats, hostels and rental rooms.</p>
+    </section>
+
+    <section class="filter-section">
+        <form class="filters" action="{{ url_for('listings') }}" method="GET">
+            <input type="text" name="city" placeholder="Search City" value="{{ filters.city }}">
+            <input type="text" name="area" placeholder="Search Area / College / Office" value="{{ filters.area }}">
+
+            <select name="budget">
+                <option value="">Budget</option>
+                <option value="below_5000" {% if filters.budget == "below_5000" %}selected{% endif %}>Below &#8377;5000</option>
+                <option value="5000_10000" {% if filters.budget == "5000_10000" %}selected{% endif %}>&#8377;5000 - &#8377;10000</option>
+                <option value="above_10000" {% if filters.budget == "above_10000" %}selected{% endif %}>Above &#8377;10000</option>
+            </select>
+
+            <select name="stay_type">
+                <option value="">Stay Type</option>
+                {% for opt in ["PG", "Hostel", "Flat"] %}
+                    <option value="{{ opt }}" {% if filters.stay_type == opt %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="gender">
+                <option value="">Gender</option>
+                {% for opt in ["Male", "Female", "Any"] %}
+                    <option value="{{ opt }}" {% if filters.gender == opt %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Apply Filters</button>
+        </form>
+    </section>
+
+    <p class="result-count">{{ listings|length }} listing{{ 's' if listings|length != 1 else '' }} found</p>
+
+    <form action="{{ url_for('compare') }}" method="GET">
+    <div class="compare-panel">
+        <span>Select two or more rooms to compare budget, stay type and facilities.</span>
+        <button type="submit">Compare Selected</button>
+    </div>
+
+    <section class="listing-section">
+        {% if listings %}
+            {% for item in listings %}
+            <div class="listing-card">
+                <img src="{{ item.image_url or 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800&auto=format&fit=crop' }}" alt="{{ item.title }}">
+                <div class="listing-content">
+                    <label class="compare-check">
+                        <input type="checkbox" name="id" value="{{ item.id }}">
+                        Add to compare
+                    </label>
+                    <h2>{{ item.title }}</h2>
+                    <p class="location">{{ item.location }}</p>
+                    <p class="price">&#8377;{{ "{:,}".format(item.price) }} / month</p>
+                    <div class="facilities">
+                        {% for facility in item.facilities %}
+                            <span>{{ facility }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="buttons">
+                        <a href="{{ url_for('listing_detail', listing_id=item.id) }}" class="details-btn">View Details</a>
+                        <a href="{{ url_for('compare', id=item.id) }}" class="compare-btn">Compare</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-results">
+                <h3>No listings found</h3>
+                <p>Try adjusting your filters or search in a different area.</p>
+            </div>
+        {% endif %}
+    </section>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoomRadar Roommates</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='listings.css') }}">
+    <style>
+        .profile-meta {
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+        .roommate-avatar {
+            height: 170px;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2563eb;
+            font-size: 54px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">RoomRadar</div>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('listings') }}">Find Room</a>
+            <a href="{{ url_for('roommates') }}">Roommate</a>
+            <a href="{{ url_for('list_property') }}">List Property</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            {% if user %}
+                <span style="margin-left:20px; color:#2563eb; font-weight:600;">Hi, {{ user }}</span>
+                <a href="{{ url_for('logout') }}" style="margin-left:15px; color:#64748b; text-decoration:none;">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" style="margin-left:20px; color:#2563eb; font-weight:600;">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Find A Roommate</h1>
+        <p>Connect with people looking for shared rooms and flats.</p>
+    </section>
+
+    <section class="listing-section">
+        {% for person in roommates %}
+        <div class="listing-card">
+            <div class="roommate-avatar">{{ person.name[:1] }}</div>
+            <div class="listing-content">
+                <h2>{{ person.name }}</h2>
+                <p class="location">{{ person.location }}</p>
+                <p class="price">&#8377;{{ "{:,}".format(person.budget) }} budget</p>
+                <div class="profile-meta">
+                    <p>{{ person.occupation }}</p>
+                    <p>{{ person.gender }}</p>
+                </div>
+                <div class="facilities">
+                    {% for preference in person.preferences %}
+                        <span>{{ preference }}</span>
+                    {% endfor %}
+                </div>
+                <div class="buttons">
+                    <a href="{{ url_for('contact') }}" class="details-btn">Contact</a>
+                    <a href="{{ url_for('listings', stay_type='Flat') }}" class="compare-btn">Find Flats</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+</body>
+</html>

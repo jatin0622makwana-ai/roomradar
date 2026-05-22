@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RoomRadar</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">RoomRadar</div>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('listings') }}">Find Room</a>
+      <a href="{{ url_for('roommates') }}">Roommate</a>
+      <a href="{{ url_for('list_property') }}">List Property</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+
+      {% if user %}
+        <span style="margin-left:20px; color:#2563eb; font-weight:600;">Hi, {{ user }}</span>
+        <a href="{{ url_for('logout') }}" class="login-btn" style="margin-left:10px;">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+        <a href="{{ url_for('signup') }}" class="signup-btn">Sign Up</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Find Your Perfect Stay In A New City</h1>
+      <p>Find PGs, hostels, flats, rental rooms and roommates easily with RoomRadar.</p>
+      <a href="{{ url_for('listings') }}" class="btn">Find Room</a>
+      <a href="{{ url_for('roommates') }}" class="btn dark-btn">Find Roommate</a>
+    </div>
+
+    <div class="search-box">
+      <h2>Search Stay</h2>
+      <form action="{{ url_for('listings') }}" method="GET">
+        <input type="text" name="city" placeholder="Enter City">
+        <input type="text" name="area" placeholder="Enter Area">
+        <select name="stay_type">
+          <option value="">Select Stay Type</option>
+          <option>PG</option>
+          <option>Hostel</option>
+          <option>Flat</option>
+        </select>
+        <select name="budget">
+          <option value="">Select Budget</option>
+          <option value="below_5000">Below &#8377;5000</option>
+          <option value="5000_10000">&#8377;5000 - &#8377;10000</option>
+          <option value="above_10000">Above &#8377;10000</option>
+        </select>
+        <button type="submit">Search Now</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2 class="title">Our Features</h2>
+    <div class="card-container">
+      <a class="card" href="{{ url_for('listings', stay_type='PG') }}"><h3>Find PG & Hostel</h3><p>Find affordable PGs and hostels easily.</p></a>
+      <a class="card" href="{{ url_for('listings', stay_type='Flat') }}"><h3>Find Flats</h3><p>Search flats and rental rooms based on your budget.</p></a>
+      <a class="card" href="{{ url_for('roommates') }}"><h3>Find Roommates</h3><p>Connect with roommates with similar preferences.</p></a>
+      <a class="card" href="{{ url_for('compare') }}"><h3>Compare Budget</h3><p>Compare room prices area-wise and choose best option.</p></a>
+    </div>
+  </section>
+
+  <section class="steps">
+    <h2 class="title">How RoomRadar Works</h2>
+    <div class="step-container">
+      <div class="step-box"><h3>01</h3><p>Select City & Area</p></div>
+      <div class="step-box"><h3>02</h3><p>Apply Budget Filters</p></div>
+      <div class="step-box"><h3>03</h3><p>Compare Rooms</p></div>
+      <div class="step-box"><h3>04</h3><p>Contact Owner/Broker</p></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>New City? No Problem.</h2>
+    <p>Find budget-friendly stay and roommates with RoomRadar.</p>
+    <a href="{{ url_for('listings') }}" class="btn">Get Started</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 RoomRadar | All Rights Reserved</p>
+  </footer>
+
+</body>
+</html>

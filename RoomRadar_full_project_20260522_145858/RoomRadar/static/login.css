@@ -1,0 +1,218 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background: linear-gradient(to right,#dbeafe,#f8fafc);
+}
+
+/* LOGIN SECTION */
+
+.login-section{
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 40px;
+}
+
+/* MAIN CONTAINER */
+
+.login-container{
+    width: 950px;
+    background-color: white;
+
+    border-radius: 20px;
+    overflow: hidden;
+
+    display: flex;
+
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.1);
+}
+
+/* LEFT SIDE */
+
+.login-left{
+    width: 45%;
+    background-color: #2563eb;
+
+    color: white;
+
+    padding: 60px 40px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-left h1{
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.login-left p{
+    text-align: center;
+    line-height: 28px;
+    margin-bottom: 30px;
+    font-size: 17px;
+}
+
+.login-left img{
+    width: 220px;
+}
+
+/* RIGHT SIDE */
+
+.login-right{
+    width: 55%;
+    padding: 60px 50px;
+}
+
+.login-right h2{
+    font-size: 36px;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+.subtitle{
+    color: #64748b;
+    margin-bottom: 35px;
+}
+
+/* INPUT FIELDS */
+
+.input-box{
+    margin-bottom: 22px;
+}
+
+.input-box label{
+    display: block;
+    margin-bottom: 8px;
+
+    font-weight: 600;
+    color: #334155;
+}
+
+.input-box input{
+    width: 100%;
+    padding: 14px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-box input:focus{
+    border-color: #2563eb;
+}
+
+/* FORGOT PASSWORD */
+
+.forgot-password{
+    text-align: right;
+    margin-bottom: 25px;
+}
+
+.forgot-password a{
+    text-decoration: none;
+    color: #2563eb;
+    font-size: 14px;
+}
+
+/* LOGIN BUTTON */
+
+form button{
+    width: 100%;
+    padding: 15px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #2563eb;
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+form button:hover{
+    background-color: #1d4ed8;
+}
+
+/* SIGNUP LINK */
+
+.signup-link{
+    text-align: center;
+    margin-top: 30px;
+
+    color: #475569;
+}
+
+.signup-link a{
+    text-decoration: none;
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.signup-link a:hover{
+    text-decoration: underline;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 900px){
+
+    .login-container{
+        flex-direction: column;
+    }
+
+    .login-left,
+    .login-right{
+        width: 100%;
+    }
+
+    .login-left{
+        padding: 40px 20px;
+    }
+
+    .login-right{
+        padding: 40px 25px;
+    }
+
+    .login-left img{
+        width: 170px;
+    }
+}
+
+@media(max-width: 500px){
+
+    .login-section{
+        padding: 20px;
+    }
+
+    .login-right h2{
+        font-size: 28px;
+    }
+
+    .login-left h1{
+        font-size: 34px;
+    }
+
+    .login-left p{
+        font-size: 15px;
+    }
+}

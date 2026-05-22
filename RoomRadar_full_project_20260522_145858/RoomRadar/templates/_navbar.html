@@ -1,0 +1,17 @@
+<header class="site-header">
+    <a class="logo" href="{{ url_for('home') }}">RoomRadar</a>
+    <nav class="site-nav" aria-label="Main navigation">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('listings') }}">Find Room</a>
+        <a href="{{ url_for('roommates') }}">Roommate</a>
+        <a href="{{ url_for('list_property') }}">List Property</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+        {% if user %}
+            <span class="nav-user">Hi, {{ user }}</span>
+            <a href="{{ url_for('logout') }}" class="nav-auth">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}" class="nav-auth">Login</a>
+            <a href="{{ url_for('signup') }}" class="nav-auth nav-primary">Sign Up</a>
+        {% endif %}
+    </nav>
+</header>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoomRadar Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+    <style>
+        .alert-error {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    {% include "_navbar.html" %}
+    <section class="signup-section">
+        <div class="signup-container">
+
+            <div class="signup-left">
+                <h1>Join RoomRadar</h1>
+                <p>Create your account and find the perfect PG, flat, hostel or roommate in your new city.</p>
+                <img src="https://cdn-icons-png.flaticon.com/512/1048/1048953.png" alt="signup-image">
+            </div>
+
+            <div class="signup-right">
+                <h2>Create Account</h2>
+                <p class="subtitle">Sign up to get started</p>
+
+                {% if error %}
+                    <div class="alert-error">{{ error }}</div>
+                {% endif %}
+
+                <form action="{{ url_for('signup') }}" method="POST">
+                    <div class="input-box">
+                        <label>Full Name</label>
+                        <input type="text" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Email Address</label>
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" placeholder="Enter your phone number" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="Create password" required>
+                    </div>
+                    <div class="input-box">
+                        <label>Confirm Password</label>
+                        <input type="password" name="confirm_password" placeholder="Confirm password" required>
+                    </div>
+                    <button type="submit">Create Account</button>
+                </form>
+
+                <div class="login-link">
+                    Already have an account?
+                    <a href="{{ url_for('login') }}">Login</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</body>
+</html>
